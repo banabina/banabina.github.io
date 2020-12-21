@@ -1,5 +1,11 @@
 ---
-title: 라즈베리 파이 커널 빌드하기
+title: "라즈베리 파이 커널 빌드하기"
+excerpt: "라즈베리 파이 커널 빌드"
+
+categories:
+  - Linux
+tags:
+  - Linux
 ---
 
 라즈베리 파이 커널 빌드
