@@ -1,6 +1,6 @@
 ---
 title: Posts by Tags
 layout: tags
-premalink: "/tags/"
+permalink: /categories/
 ---
 
