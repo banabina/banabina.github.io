@@ -95,7 +95,7 @@ analytics:
 author:
   name             : "JKwan"
   avatar           : "/assets/images/Ducati.jpg"
-  bio              : "공부하는 개발자입니다. <br> 블로그 포스트에 잘못된 부분에 대해 알려주시면 공부 후 수정하도록 하겠습니다. "
+  bio              : "공부하는 개발자입니다. <br> "
   location         : "south korea"
   email            : "banabina0012@gmail.com"
   links:
@@ -262,5 +262,3 @@ defaults:
     values:
       layout: single
       author_profile: true
-      read_time: false
-      comments: # true
