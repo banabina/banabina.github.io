@@ -5,6 +5,10 @@ categories:
 - Linux
 tags:
 - Linux
+toc: true
+comments: true
+toc_sticky: true
+
 ---
 
 **'디버깅을 통해 배우는 리눅스 커널의 구조와 원리' 책의 실습을 진행하였다.<br><br>
