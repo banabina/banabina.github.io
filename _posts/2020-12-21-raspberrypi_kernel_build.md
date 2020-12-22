@@ -2,9 +2,9 @@
 title: 라즈베리 파이 커널 빌드하기
 excerpt: 라즈베리 파이 커널 빌드
 categories:
-- Linux
+- linux
 tags:
-- Linux
+- linux
 toc: true
 comments: true
 toc_sticky: true
@@ -38,29 +38,8 @@ git clone --depth=1 --branch rpi-4.19y https://github.com/raspberrypi/linux
 
 ## Step 2:  커널 빌드
 커널 빌드를 하기 위해 빌드 쉘 스크립터 작성하자. 쉘 스크립터의 이름은 build_rpi_kernel.sh이다.
-```java
-01 #!/bin/bash
-02 
-03 echo "configure build output path"
-04 
-05 KERNEL_TOP_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
-06 OUTPUT="$KERNEL_TOP_PATH/out"
-07 echo "$OUTPUT"
-08 
-09 KERNEL=kernel7
-10 BUILD_LOG="$KERNEL_TOP_PATH/rpi_build_log.txt"
-11 
-12 echo "move kernel source"
-13 cd linux
-14 
-15 echo "make defconfig"
-16 make O=$OUTPUT bcm2709_defconfig
-17 
-18 echo "kernel build"
-19 make O=$OUTPUT zImage modules dtbs -j4 2>&1 | tee $BUILD_LOG
-```
+<script src="https://gist.github.com/banabina/6e0fba11ed7460b116655476e4f53fcd.js"></script>
 
-<br>빌드 스크립트의 내용을 살펴보기 위해 앞에 번호를 붙였다. <br>
 
 ```java
 01 #!/bin/bash
@@ -100,21 +79,7 @@ root@raspberrypi:/home/pi/rpi_kernel_src# ./build_rpi_kernel.sh
 ## Step 3:  커널 설치
 빌드한 커널 이미지를 설치해보자.
 라즈비안 이미지를 설치하는 셸 스크립트를 작성
-```java
-#!/bin/bash
-
-KERNEL_TOP_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
-OUTPUT="$KERNEL_TOP_PATH/out"
-echo "$OUTPUT"
-
-cd linux
-
-make O=$OUTPUT modules_install
-cp $OUTPUT/arch/arm/boot/dts/*.dtb /boot/
-cp $OUTPUT/arch/arm/boot/dts/overlays/*.dtb* /boot/overlays/
-cp $OUTPUT/arch/arm/boot/dts/overlays/README /boot/overlays/
-cp $OUTPUT/arch/arm/boot/zImage /boot/kernel7.img
-```
+<script src="https://gist.github.com/banabina/602f819b8b0d5fda1cea6c3aff377027.js"></script>
 <br>다음 명령어로 셸 스크립트를 실행한다.
 ```bash
 root@raspberrypi:/home/pi/rpi_kernel_src# ./install_rpi_kernel.sh
@@ -125,30 +90,7 @@ root@raspberrypi:/home/pi/rpi_kernel_src# ./install_rpi_kernel.sh
 리눅스 커널 소스를 분석하다 보면 수 많은 매크로를 만난다. 이 매크로가 소스 분석의 걸림돌로 작용한다. 전처리 코드는 이러한 매크로를 풀어서 표현한다. 따라서 전처리 코드를 생성해서 리눅스 커널 코드를 분석하면 분석에 도움을 받을 수 있다.
 
 셸 스크립트 build_preprocess_rpi_kernel.sh을 작성한다.
-```java
-#!/bin/bash
-
-echo "configure build output path"
-
-KERNEL_TOP_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
-OUTPUT="$KERNEL_TOP_PATH/out"
-echo "$OUTPUT"
-
-KERNEL=kernel7
-BUILD_LOG="$KERNEL_TOP_PATH/rpi_preproccess_build_log.txt"
-
-PREPROCESS_FILE=$1
-echo "build preprocessed file: $PREPROCESS_FILE"
-
-echo "move kernel source"
-cd linux
-
-echo "make deconfig"
-make O=$OUTPUT bcm2709_defconfig
-
-echo "kernel build"
-make $PREPROCESS_FILE O=$OUTPUT zImage modules dtbs -j4 2>$1 | tee $BUILD_LOG
-``` 
+<script src="https://gist.github.com/banabina/3a4000fd37e26aea54be9747ac3b1aae.js"></script>
 <br>파일을 저장한 후에는 chmod 명령어를 입력해 파일에 실행 권한을 부여
 ```bash
 root@raspberrypi:/home/pi/rpi_kernel_src# chmod +x build_rpi_kernel.sh
