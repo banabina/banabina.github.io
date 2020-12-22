@@ -8,23 +8,17 @@ tags:
 toc: true
 comments: true
 toc_sticky: true
-
 ---
 
 **'디버깅을 통해 배우는 리눅스 커널의 구조와 원리' 책의 실습을 진행하였다.<br><br>
 
-실습 내용은 아래와 같다
-1. 라즈비안 리눅스 소스 코드를 내려 받기
-2. 커널 소스 빌드
-3. 커널 설치
+커널을 빌드, 설치하는 과정은 앞으로 실습에서도 많이 사용될 것 같아 내용을 정리하려 한다!<br><br>
 
-커널을 빌드, 설치하는 과정은 앞으로 실습에서도 많이 사용될 것 같아 내용을 정리하려 한다.<br><br>
-
-불필요한 권한 설정을 피하기 위해 root 권한을 획득 후 진행
+불필요한 권한 설정을 피하기 위해 root 권한을 획득 후 진행하였다.
 ```java
 $ sudo su
 ```
-커널 소스를 다운 받을 디렉토리를 생성
+커널 소스를 다운 받을 디렉토리를 생성한다.
 ```java
 $ mkdir rpi_kernel_src
 ```
@@ -76,12 +70,14 @@ git clone --depth=1 --branch rpi-4.19y https://github.com/raspberrypi/linux
 ```java
 05 KERNEL_TOP_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 ```
-KERNEL_TOP_PATH에 현재 작업 디렉토리를 저장하는 라인이다. 한 줄에 여러 개의 명령어가 합쳐져 있는데, cd "$(dirname "$0")" 와 pwd -P로 나누어 볼 수 있다. <br>
-먼저, pwd \- P 는 현재 쉘의 절대 경로를 받아오는 명령어이다.  다만, 쉘의 위치에 따라 결과가 달라지기 때문에 앞에 추가적인 명령이 붙는다.
+KERNEL_TOP_PATH에 현재 작업 디렉토리를 저장하는 라인이다. 즉, KERNEL_TOP_PATH에는 home/pi/rpi_kernel_src가 들어가게 된다. 한 줄에 두 개의 명령어가 합쳐져 있는데, cd "$(dirname "$0")" 와 pwd -P이다. <br>
+pwd \- P 는 현재 쉘의 절대 경로를 받아오는 명령어이다.  pwd \-P는  쉘의 위치에 따라 결과가 달라지기 때문에 앞에 추가적인 명령이 붙는다.
 \$0는 명령어의 첫번째 인자를 의미한다. 여기서는 home/pi/rpi_kernel_src/build_rpi_kernel.sh 이다. dirname 은 문자열에서 디렉토리만 출력하는 명령어이다. dirname "\$0"을 한 결과는 home/pi/rpi_kernel_src이 된다. <br>
-따라서 현재 디렉토리를 이동 후 절대 경로를 받아왔으므로 KERNEL_TOP_PATH에는 현재 작업 디렉토리가 저장된다.<br><br>
- **Tip**:큰따옴표 안에 넣은 값은 변수가 실제 값으로 치환된 후 출력되고 작은 따옴표로 감싸진 문자열은 변화없이 그대로 출력된다. 세미콜론은 하나의 명령이 끝날 때 뒤에 붙여서 한 명령이 끝났음을 나타낸다.<br>
- 
+따라서 현재 디렉토리를 이동 후 절대 경로를 받아왔으므로 KERNEL_TOP_PATH에는 현재 작업 디렉토리가 저장된다.<br>
+
+ **Tip**:큰따옴표 안에 넣은 값은 변수가 실제 값으로 치환된 후 출력되고<br> 작은 따옴표로 감싸진 문자열은 변화없이 그대로 출력된다.<br> 세미콜론은 하나의 명령이 끝날 때 뒤에 붙여서 한 명령이 끝났음을 나타낸다.<br>
+ {: .notice--info}
+<br>
 ```java
 16 make O=$OUTPUT bcm2709_defconfig
 ```
@@ -120,7 +116,7 @@ cp $OUTPUT/arch/arm/boot/dts/overlays/README /boot/overlays/
 cp $OUTPUT/arch/arm/boot/zImage /boot/kernel7.img
 ```
 <br>다음 명령어로 셸 스크립트를 실행한다.
-```java
+```bash
 root@raspberrypi:/home/pi/rpi_kernel_src# ./install_rpi_kernel.sh
 ```
 커널 빌드 시 에러가 발생했다면 반드시 수정하고 설치해야 한다. 그렇지 않으면 제대로 설치되지 않는다.
@@ -154,17 +150,17 @@ echo "kernel build"
 make $PREPROCESS_FILE O=$OUTPUT zImage modules dtbs -j4 2>$1 | tee $BUILD_LOG
 ``` 
 <br>파일을 저장한 후에는 chmod 명령어를 입력해 파일에 실행 권한을 부여
-```java
+```bash
 root@raspberrypi:/home/pi/rpi_kernel_src# chmod +x build_rpi_kernel.sh
 ```
 
 linux/kernel/sched/core.c 파일을 전처리 코드로 추출하려면 다음 현식으로 셸 스크립트를실행하면 된다
-```java
+```bash
 ./build_preprocess_rpi_kernel.sh /kernel/shced/core.i
 ```
 소스 코드의 디렉토리를 잘 못 입력하면 에러 메시지와 함께 빌드가 종료된다. linux 폴더를 기준으로 한 소스 코드의 위치를 입력하면 된다
 
-<br>*reference
+<br>*reference <br>
 https://www.raspberrpi.org/documentation/linux/kernel/building.md
 디버깅을 통해 배우는 리눅스 커널의 구조와 원리
 http://egloos.zum.com/rousalome/v/10011640
