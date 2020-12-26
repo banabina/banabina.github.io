@@ -10,9 +10,7 @@ comments: true
 toc_sticky: true
 ---
 
-**'디버깅을 통해 배우는 리눅스 커널의 구조와 원리' 책의 실습을 진행하였다.<br><br>
-
-커널을 빌드, 설치하는 과정은 앞으로 실습에서도 많이 사용될 것 같아 내용을 정리한다.<br><br>
+라즈베리 파이에서 리눅스 커널을 수정하고 이를 적용하려면 커널을 빌드하고 설치할 수 있어야 합니다. '디버깅을 통해 배우는 리눅스 커널의 구조와 원리'를 읽으면서 앞으로 커널 빌드할 일이 꽤 생길 거 같아서 관련 내용을 정리하려 합니다.  <br>
 
 불필요한 권한 설정을 피하기 위해 root 권한을 획득하였다.
 ```java
@@ -34,8 +32,7 @@ $ apt-get install git bc bison flex libss-dev
 cd rpi_kernel_src
 git clone --depth=1 --branch rpi-4.19y https://github.com/raspberrypi/linux
 ```
-소스 코드를 다운 받는 데 10 분 정도 소요된다. 브랜치를 rpi-4.19.y로 지정해주자.
-
+소스 코드를 다운 받는 데 5분정도 소요된다. --branch 옵션을 넣지 않으면 최신 커널 소스를 다운받게 된다. 
 ## Step 2:  커널 빌드
 커널 빌드를 하기 위해 빌드 쉘 스크립터 작성하자. 쉘 스크립터의 이름은 build_rpi_kernel.sh이다.
 <script src="https://gist.github.com/banabina/6e0fba11ed7460b116655476e4f53fcd.js"></script>
@@ -99,11 +96,12 @@ root@raspberrypi:/home/pi/rpi_kernel_src# chmod +x build_rpi_kernel.sh
 
 linux/kernel/sched/core.c 파일을 전처리 코드로 추출하려면 다음 현식으로 셸 스크립트를실행하면 된다
 ```bash
-./build_preprocess_rpi_kernel.sh /kernel/shced/core.i
+./build_preprocess_rpi_kernel.sh kernel/sched/core.i
 ```
 소스 코드의 디렉토리를 잘 못 입력하면 에러 메시지와 함께 빌드가 종료된다. linux 폴더를 기준으로 한 소스 코드의 위치를 입력하면 된다.
 
-**Reference **<br>
+
+**Reference** <br>
 https://www.raspberrpi.org/documentation/linux/kernel/building.md<br>
 디버깅을 통해 배우는 리눅스 커널의 구조와 원리<br>
 http://egloos.zum.com/rousalome/v/10011640<br>
