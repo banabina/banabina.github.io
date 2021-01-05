@@ -1,5 +1,5 @@
 ---
-title: 인터럽트
+title: "[linux] 인터럽트란"
 categories:
 - linux
 tags:
