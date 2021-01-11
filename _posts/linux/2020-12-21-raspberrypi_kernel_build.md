@@ -30,7 +30,7 @@ $ apt-get install git bc bison flex libss-dev
 <br>rpi_kernel_src 폴더에 커널 소스를 다운 받는다.
 ```java
 cd rpi_kernel_src
-git clone --depth=1 --branch rpi-4.19y https://github.com/raspberrypi/linux
+git clone --depth=1 --branch rpi-4.19.y https://github.com/raspberrypi/linux
 ```
 소스 코드를 다운 받는 데 5분정도 소요된다. --branch 옵션을 넣지 않으면 최신 커널 소스를 다운받게 된다. 
 ## Step 2:  커널 빌드
